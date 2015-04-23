@@ -1,0 +1,18 @@
+<PatientList> 
+  <description>This is a contrived Patient record, assembled from handlebars</description>
+  <datasource-description>{{description}}</datasource-description>
+  <source name='{{source}}'/>
+  <datasource-time>{{stamp}}</datasource-time>
+  <current-time>{{currenttime}}</current-time>
+  {{#datarows}}
+  <Patient xmlns="http://hl7.org/fhir"> 
+    <name>{{name}}</name>
+    <age>{{age}}</age>
+    <identifier>{{id}}</identifier>
+    <gender>{{gender}}</gender>
+    {{#deceased}}
+    <deceased>{{deceased}}</deceased>
+    {{/deceased}}
+  </Patient>
+  {{/datarows}}
+<PatientList> 

@@ -1,0 +1,21 @@
+{
+  "name": "mayo1",
+  "description": "prototype of using handlebars to fill in a template",
+  "version": "0.0.1",
+  "main": "fillTemplate.js",
+  "author" : { "name" : "Dino Chiesa"},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "handlebars": "3.0.2",
+    "express": "4.12.3",
+    "async" : "0.9.0",
+    "body-parser" : "1.12.3"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "2.8.x"
+  }
+}

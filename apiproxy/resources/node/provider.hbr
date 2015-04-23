@@ -1,0 +1,15 @@
+<ProviderList> 
+  <description>This is a contrived Provider record, assembled from handlebars</description>
+  <datasource-description>{{description}}</datasource-description>
+  <source name='{{source}}'/>
+  <datasource-time>{{stamp}}</datasource-time>
+  <current-time>{{currenttime}}</current-time>
+  {{#datarows}}
+  <Provider xmlns="http://hl7.org/fhir"> 
+    <name>{{name}}</name>
+    <identifier>{{id}}</identifier>
+    <specialties>{{specialties}}</specialties>
+  </Provider>
+  {{/datarows}}
+<ProviderList> 
+
