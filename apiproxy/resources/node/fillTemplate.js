@@ -1,10 +1,13 @@
 // fillTemplate.js
 // ------------------------------------------------------------------
 //
-// Demonstrates filling a handlebars template with data from a datasource.
+// Demonstrates filling a handlebars template with data from a
+// datasource. The datasource is nothing more that a Javascript hash.
+// It theoretically can be filled from "anywhere", like an XML payload,
+// a REST webservice, a MySQL database, etc.
 //
 // created: Wed Apr 22 12:18:43 2015
-// last saved: <2015-April-22 16:52:49>
+// last saved: <2015-April-23 10:16:08>
 
 var fs = require('fs'),
     async = require('async'),
@@ -59,6 +62,8 @@ Handlebars.registerHelper("currenttime", function() {
 function handleRequest(request, response) {
   var path = request.path, result,
       route = templateRoutes.routes[path];
+  // lookup the template and dataModel based on the path.
+  // TODO: parameterize these queries.
   response.header('Content-Type', 'text/xml');
   if ( ! route) {
     response.status(500).send("<error><message>cannot find template</message></error>");

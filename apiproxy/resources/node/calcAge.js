@@ -1,17 +1,20 @@
 // calcAge.js
 // ------------------------------------------------------------------
 //
-// Description goes here....
+// Calculate an age based on a prior date, and today's date.  The only
+// tricky part is converting an elapsed number of milliseconds - the
+// difference between two dates - into a human-readable string, like "28
+// years 10 months". This is just modulo arithmetic.
 //
 // created: Wed Apr 22 12:47:26 2015
-// last saved: <2015-April-22 13:02:02>
+// last saved: <2015-April-23 10:11:23>
 
 var re1 = new RegExp("\\d{4}-\\d{2}-\\d{2}");
 var re2 = new RegExp("(\\d{4})-([A-Ya-y]{3,})-(\\d{2})");
 var months = ['January', 'February', 'March', 'April', 'May', 'June',
              'July', 'August', 'September', 'October', 'November', 'December'];
 
-function normalizeDate(input) {
+function normalizeDateString(input) {
   var dob = '';
 
   if (re1.test(input)) {
@@ -30,7 +33,6 @@ function normalizeDate(input) {
     dob = match[1] + '-' + (x + 1) + '-' + match[3];
     return dob;
   }
-
 
   x = months.map(function(item){return item.toLowerCase();})
     .indexOf(match[2].toLowerCase());
@@ -70,6 +72,8 @@ function calcAge(dob) {
   if (day1 <1 || day1 > daysInMonth(month1+1,yr1)) {
     return "invalid date";
   }
+
+  // ok we have valid input
   yrs = yr2 - yr1;
 
   // next birthday not yet reached

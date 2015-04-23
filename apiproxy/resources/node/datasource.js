@@ -1,10 +1,10 @@
 // datasource.js
 // ------------------------------------------------------------------
 //
-// just contrived data to illustrate the point.
+// just contrived data to illustrate the concept.
 //
 // created: Wed Apr 22 12:19:53 2015
-// last saved: <2015-April-22 16:30:57>
+// last saved: <2015-April-23 10:11:13>
 
 module.exports = {
 

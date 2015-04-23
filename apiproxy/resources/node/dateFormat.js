@@ -1,3 +1,15 @@
+// dateFormat.js
+// ------------------------------------------------------------------
+//
+// Provide a dateFormat function that simulates or replicates PHP's date
+// function.
+//
+// example usage:
+//     var d = new Date();
+//     return d.format("Y-M-d\\TH:i:s.u");
+//
+// created: Wed Apr 22 12:47:26 2015
+// last saved: <2015-April-23 10:14:16>
 
 var replaceChars = {
         shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
