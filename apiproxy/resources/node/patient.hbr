@@ -15,4 +15,5 @@
     {{/deceased}}
   </Patient>
   {{/datarows}}
-<PatientList> 
+</PatientList>
+

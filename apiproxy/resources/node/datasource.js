@@ -4,7 +4,7 @@
 // just contrived data to illustrate the concept.
 //
 // created: Wed Apr 22 12:19:53 2015
-// last saved: <2015-April-23 10:11:13>
+// last saved: <2015-April-23 10:54:30>
 
 module.exports = {
 
@@ -54,10 +54,74 @@ module.exports = {
         ]
       },
       {
+        name : "Dr. Hubert",
+        id: "FA1271A8-B279-409B-8565-44EA5FDF495D",
+        specialties : [
+          "Surgery", "Craniofacial Surgery"
+        ]
+      },
+      {
+        name : "Dr. Louise",
+        id: "326ABA94-6794-4581-9769-13E82F897EC3",
+        specialties : [
+          "Dermatology"
+        ]
+      },
+      {
+        name : "Dr. Bill",
+        id: "81C0B9C1-C8A0-4A46-9B92-B98D7A4D61EE",
+        specialties : [
+          "Gynecology", "Obstetrics"
+        ]
+      },
+      {
+        name : "Dr. Dave",
+        id: "A9805FFA-3C7E-4C58-836A-BD8F74867FBF",
+        specialties : [
+          "Cardiology"
+        ]
+      },
+      {
+        name : "Dr. Helen",
+        id: "6BC84C25-3DD3-42BB-8343-B0F78F2DF66B",
+        specialties : [
+          "Ophthalmology", "Ophthalmic Plastic & Reconstructive Surgery"
+        ]
+      },
+
+      {
         name : "Dr. Sheila",
         id: "71A45A08-CD2B-42F1-9638-87F695D9C080",
         specialties : [
           "Psychiatry"
+        ]
+      },
+      {
+        name : "Dr. Shirley",
+        id: "D5A65707-3FE7-4572-BFC7-D37F59BD3734",
+        specialties : [
+          "Thoracic Surgery", "Surgery"
+        ]
+      },
+      {
+        name : "Dr. Sheldon",
+        id: "4948C23F-1773-4C23-9436-0EB60A647721",
+        specialties : [
+          "Neurology", "Neuropathology"
+        ]
+      },
+      {
+        name : "Dr. Martha",
+        id: "5C0EC9A6-1434-43F2-87FA-35DD57B160B9",
+        specialties : [
+          "Psychiatry", "Addiction Psychiatry"
+        ]
+      },
+      {
+        name : "Dr. Willa",
+        id: "C0372F44-AD48-4563-844B-309B2AF91C39",
+        specialties : [
+          "Family Medicine", "Family Practice", "Sports Medicine"
         ]
       }
       ]

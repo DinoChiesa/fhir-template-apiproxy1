@@ -11,5 +11,5 @@
     <specialties>{{specialties}}</specialties>
   </Provider>
   {{/datarows}}
-<ProviderList> 
+</ProviderList>
 

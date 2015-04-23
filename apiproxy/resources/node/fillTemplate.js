@@ -6,8 +6,12 @@
 // It theoretically can be filled from "anywhere", like an XML payload,
 // a REST webservice, a MySQL database, etc.
 //
+// The handlebars template is provided by the operator. This demo shows
+// a Patient and a Provider template. These are NOT FHIR compliant today.
+// Just an illustration of the concept.
+//
 // created: Wed Apr 22 12:18:43 2015
-// last saved: <2015-April-23 10:16:08>
+// last saved: <2015-April-23 11:06:11>
 
 var fs = require('fs'),
     async = require('async'),
@@ -48,6 +52,13 @@ function loadOneTemplate(key, cb) {
   });
 }
 
+function copyHash(obj) {
+  var copy = {};
+  if (null !== obj && typeof obj == "object") {
+    Object.keys(obj).forEach(function(attr){copy[attr] = obj[attr];});
+  }
+  return copy;
+}
 
 // Define a few handlebars helpers, just for fun.
 Handlebars.registerHelper("age", function() {
@@ -59,19 +70,94 @@ Handlebars.registerHelper("currenttime", function() {
   return dateFormat(new Date(), "Y-M-d\\TH:i:s.u");
 });
 
+
+function convertWildcardToRegex(wildcard) {
+  // build a regex from a wildcard string; it replaces % with .*
+  var re0 = new RegExp('%', 'g');
+  var re1 = new RegExp(wildcard.replace(re0, '.*'));
+  return re1;
+}
+
+function retrieveData(resourcePath, name, id, specialty) {
+  // This function currently retrieves and filters data from just one
+  // kind of datasource: a JS hash containing an array of elements
+  // called 'datarows'.
+  //
+  // Later we can extend this fn to retrieve data from different sources
+  // - eg RDBMS and HBase - based on the resourcePath. Or perhaps it
+  // would be more correct to select the datasource based on the
+  // template itself.
+
+  var filteredData = copyHash(dataModel[resourcePath]);
+  if (id) {
+    filteredData.datarows = filteredData.datarows.filter(function(item) {
+      return item.id == id;
+    });
+  }
+
+  if (name) {
+    if (name.indexOf('%') > -1) {
+      // pattern match - use regexp
+      re1 = convertWildcardToRegex(name);
+      filteredData.datarows = filteredData.datarows.filter(function(item) {
+        return re1.test(item.name);
+      });
+    }
+    else {
+      // exact match
+      filteredData.datarows = filteredData.datarows.filter(function(item) {
+        return item.name == name;
+      });
+    }
+  }
+
+  // allow query of specialty only for Provider
+  if (resourcePath === '/Provider') {
+    if (specialty) {
+      if (specialty.indexOf('%') > -1) {
+        // pattern match - use regexp
+        re1 = convertWildcardToRegex(specialty);
+        filteredData.datarows = filteredData.datarows.filter(function(item) {
+          var found = item.specialties.filter(function(spec){
+                return re1.test(spec);
+              });
+          return (found.length>0);
+        });
+      }
+      else {
+        // exact match
+        filteredData.datarows = filteredData.datarows.filter(function(item) {
+          return item.specialties.indexOf(specialty) > -1;
+        });
+      }
+    }
+  }
+  return filteredData;
+}
+
+
 function handleRequest(request, response) {
-  var path = request.path, result,
-      route = templateRoutes.routes[path];
+  var path = request.path,
+      route = templateRoutes.routes[path],
+      retrievedData,
+      result,
+      id = request.query.id,
+      name = request.query.name,
+      specialty = request.query.specialty,
+      re1;
+
   // lookup the template and dataModel based on the path.
-  // TODO: parameterize these queries.
   response.header('Content-Type', 'text/xml');
   if ( ! route) {
     response.status(500).send("<error><message>cannot find template</message></error>");
     return;
   }
-  result = route.template(dataModel[path]);
+
+  retrievedData = retrieveData(path, name, id, specialty);
+  result = route.template(retrievedData);
   response.status(200).send(result);
 }
+
 
 app.get('/Patient', jsonParser, handleRequest);
 app.get('/Provider', jsonParser, handleRequest);
@@ -79,11 +165,11 @@ app.get('/Provider', jsonParser, handleRequest);
 // default behavior
 app.all(/^\/.*/, function(request, response) {
   response.header('Content-Type', 'application/json');
-  response.status(404).send('{ "status" : "This is not the server you\'re looking for." }\n');
+  response.status(404).send('{ "error": true, "status" : "There\'s nothing here by that name." }\n');
 });
 
 
-// load all the templates and only begin listening when that's complete
+// Load all the templates, begin listening for requests when finished.
 var keys = Object.keys(templateRoutes.routes);
 async.mapSeries(keys, loadOneTemplate, function(e, routesdata) {
   // ignore routesdata
