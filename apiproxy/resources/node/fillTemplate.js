@@ -11,7 +11,7 @@
 // Just an illustration of the concept.
 //
 // created: Wed Apr 22 12:18:43 2015
-// last saved: <2015-April-23 12:07:15>
+// last saved: <2015-April-23 16:01:31>
 
 var fs = require('fs'),
     async = require('async'),
@@ -73,8 +73,10 @@ Handlebars.registerHelper("currenttime", function() {
 
 function convertWildcardToRegex(wildcard) {
   // build a regex from a wildcard string; it replaces % with .*
-  var re0 = new RegExp('%', 'g');
-  var newString = '^' + wildcard.replace(re0, '.*') + '$';
+  var re0 = new RegExp('\\*', 'g');
+  var stage1 = wildcard.replace('.', '\\.');
+  var newString = '^' + stage1.replace(re0, '.*') + '$';
+console.log('wildcard(%s) re(%s)', wildcard, newString);
   var re1 = new RegExp(newString);
   return re1;
 }
@@ -97,7 +99,7 @@ function retrieveData(resourcePath, name, id, specialty) {
   }
 
   if (name) {
-    if (name.indexOf('%') > -1) {
+    if (name.indexOf('*') > -1) {
       // pattern match - use regexp
       re1 = convertWildcardToRegex(name);
       filteredData.datarows = filteredData.datarows.filter(function(item) {
@@ -115,7 +117,7 @@ function retrieveData(resourcePath, name, id, specialty) {
   // allow query of specialty only for Provider
   if (resourcePath === '/Provider') {
     if (specialty) {
-      if (specialty.indexOf('%') > -1) {
+      if (specialty.indexOf('*') > -1) {
         // pattern match - use regexp
         re1 = convertWildcardToRegex(specialty);
         filteredData.datarows = filteredData.datarows.filter(function(item) {
