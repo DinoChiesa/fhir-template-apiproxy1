@@ -11,7 +11,7 @@
 // Just an illustration of the concept.
 //
 // created: Wed Apr 22 12:18:43 2015
-// last saved: <2015-April-23 11:06:11>
+// last saved: <2015-April-23 12:07:15>
 
 var fs = require('fs'),
     async = require('async'),
@@ -74,7 +74,8 @@ Handlebars.registerHelper("currenttime", function() {
 function convertWildcardToRegex(wildcard) {
   // build a regex from a wildcard string; it replaces % with .*
   var re0 = new RegExp('%', 'g');
-  var re1 = new RegExp(wildcard.replace(re0, '.*'));
+  var newString = '^' + wildcard.replace(re0, '.*') + '$';
+  var re1 = new RegExp(newString);
   return re1;
 }
 
